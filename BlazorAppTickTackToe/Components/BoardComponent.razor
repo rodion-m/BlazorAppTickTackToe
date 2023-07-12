@@ -1,0 +1,18 @@
+﻿<div class="tictactoe-board">
+    <div class="tictacttoe-column">
+        @{
+            var style = $"tictactoe-cell-{board.Cell_0_0}";
+            ;
+            <div class="tictactoe-cell @style" />
+        }
+        <div class="tictactoe-cell
+                    tictactoe-cell-@board.Cell_0_1.ToString()" />
+        <div class="tictactoe-cell
+                    tictactoe-cell-@board.Cell_0_2.ToString()" />
+    </div>
+</div>
+
+@code {
+    Board board = new Board();
+
+}
