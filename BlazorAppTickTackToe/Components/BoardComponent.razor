@@ -1,18 +1,34 @@
 ﻿<div class="tictactoe-board">
-    <div class="tictacttoe-column">
-        @{
-            var style = $"tictactoe-cell-{board.Cell_0_0}";
-            ;
-            <div class="tictactoe-cell @style" />
-        }
-        <div class="tictactoe-cell
-                    tictactoe-cell-@board.Cell_0_1.ToString()" />
-        <div class="tictactoe-cell
-                    tictactoe-cell-@board.Cell_0_2.ToString()" />
-    </div>
+    @for(int row = 0; row < board.RowCount; row++)
+    {
+        <div class="tictacttoe-column">
+            @for(int column = 0; column < board.ColumnCount; column++)
+            {
+                CellState cell = board.Cells[row, column];
+                var savedRow = row;
+                var savedColumn = column;
+                ;
+                <div class="tictactoe-cell
+                    tictactie-cell-@cell.ToString()"
+                    @onclick="() => CellClick(savedRow, savedColumn)" 
+                />
+            }
+        </div>
+    }
 </div>
 
 @code {
     Board board = new Board();
 
+    void CellClick(int row, int column)
+    {
+        //нужно знать:
+        //1: Чей ход? Игрок 1 (X) или игрок 2 (O)
+        //- 2. что за ячейка? - ОТВЕТИЛИ: по row, по column
+        if(board.Cells[row, column] == CellState.Blank)
+        {
+            board.Cells[row, column] = CellState.X;
+        }
+        
+    }
 }
