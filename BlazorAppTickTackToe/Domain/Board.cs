@@ -48,4 +48,5 @@
             //тернарный оператор
             CurrentGamer = CurrentGamer == Gamer.X ? Gamer.O : Gamer.X;
         }
+    }
 }
