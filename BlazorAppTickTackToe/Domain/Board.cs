@@ -5,29 +5,47 @@
         Blank, X, O
     }
 
+    public enum Gamer 
+    {
+        X, O
+    }
+
     public class Board
     {
         public int ColumnCount => 3;
         public int RowCount => 3;
 
         public CellState[,] Cells { get; set; }
+        public Gamer CurrentGamer { get; set; } = Gamer.X;
 
         public Board()
         {
             Cells = new CellState[RowCount, ColumnCount];
         }
 
+        /// <summary>
+        /// Сделать следующий ход
+        /// </summary>
+        public void NextTurn(int row, int column)
+        {
+            if (Cells[row, column] == CellState.Blank)
+            {
+                if (CurrentGamer == Gamer.X)
+                {
+                    Cells[row, column] = CellState.X;
+                    SwitchGamer();
+                }
+                else
+                {
+                    Cells[row, column] = CellState.O;
+                    SwitchGamer();
+                }
+            }
+        }
 
-        public CellState Cell_0_0 { get; set; } = CellState.X;
-        public CellState Cell_0_1 { get; set; }
-        public CellState Cell_0_2 { get; set; }
-        public CellState Cell_1_0 { get; set; }
-        public CellState Cell_1_1 { get; set; }
-        public CellState Cell_1_2 { get; set; }
-        public CellState Cell_2_0 { get; set; }
-        public CellState Cell_2_1 { get; set; }
-        public CellState Cell_2_2 { get; set; }
-
-
-    }
+        private void SwitchGamer()
+        {
+            //тернарный оператор
+            CurrentGamer = CurrentGamer == Gamer.X ? Gamer.O : Gamer.X;
+        }
 }

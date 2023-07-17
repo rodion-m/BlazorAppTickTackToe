@@ -9,7 +9,7 @@
                 var savedColumn = column;
                 ;
                 <div class="tictactoe-cell
-                    tictactie-cell-@cell.ToString()"
+                    tictactoe-cell-@cell.ToString()"
                     @onclick="() => CellClick(savedRow, savedColumn)" 
                 />
             }
@@ -20,15 +20,9 @@
 @code {
     Board board = new Board();
 
+    // Задание: Перенест логику из CellClick в NextTurn
     void CellClick(int row, int column)
     {
-        //нужно знать:
-        //1: Чей ход? Игрок 1 (X) или игрок 2 (O)
-        //- 2. что за ячейка? - ОТВЕТИЛИ: по row, по column
-        if(board.Cells[row, column] == CellState.Blank)
-        {
-            board.Cells[row, column] = CellState.X;
-        }
-        
+        board.NextTurn(row, column);
     }
 }
