@@ -1,21 +1,24 @@
 ﻿<div class="tictactoe-board">
-    @for(int row = 0; row < board.RowCount; row++)
+
+    @for (int column = 0; column < board.ColumnCount; column++)
     {
         <div class="tictacttoe-column">
-            @for(int column = 0; column < board.ColumnCount; column++)
+            @for (int row = 0; row < board.RowCount; row++)
             {
                 CellState cell = board.Cells[row, column];
                 var savedRow = row;
                 var savedColumn = column;
                 ;
                 <div class="tictactoe-cell
-                    tictactoe-cell-@cell.ToString()"
-                    @onclick="() => CellClick(savedRow, savedColumn)" 
-                />
+                        tictactoe-cell-@cell.ToString()"
+                @onclick="() => CellClick(savedRow, savedColumn)">
+                    r: @savedRow col: @savedColumn
+                </div>
             }
         </div>
     }
 </div>
+<div>Победитель: @board.GetGameResult()</div>
 
 @code {
     Board board = new Board();
