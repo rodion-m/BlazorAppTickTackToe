@@ -1,4 +1,10 @@
-﻿namespace BlazorAppTickTackToe.Domain
+﻿using System.Text;
+using System.Text.Json;
+using OpenAI.ChatGpt;
+using OpenAI.ChatGpt.Models.ChatCompletion;
+using OpenAI.ChatGpt.Modules.StructuredResponse;
+
+namespace BlazorAppTickTackToe.Domain
 {
     public enum CellState
     {
@@ -12,7 +18,10 @@
 
     public enum GameResult
     {
-        WonX, WonO, NoWinner
+        WonX, 
+        WonO, 
+        NoWinner,
+        Unknown
     }
 
     public class Board
@@ -33,6 +42,8 @@
         /// </summary>
         public void NextTurn(int row, int column)
         {
+            if (GetGameResult(out _) != GameResult.Unknown) return;
+
             if (Cells[row, column] == CellState.Blank)
             {
                 if (CurrentGamer == Gamer.X)
@@ -54,25 +65,35 @@
             CurrentGamer = CurrentGamer == Gamer.X ? Gamer.O : Gamer.X;
         }
 
-        // TODO: победа по события.
+        // TODO: победа по событию.
         // Задание: запрограммируйте проверку 8 вариантов победы крестиков
-        public GameResult GetGameResult()
+        public GameResult GetGameResult(out CellPosition[] winCells)
         {
-            if (CheckWin(Gamer.X))
+            if (CheckWin(Gamer.X, out winCells))
             {
                 return GameResult.WonX;
             }
-            else if (CheckWin(Gamer.O))
+            else if (CheckWin(Gamer.O, out winCells))
             {
                 return GameResult.WonO;
             }
-            else
+            else if (CheckNoWinner()) //ДЗ: Реализовать метод определения ничьей (CheckNoWinner)
             {
                 return GameResult.NoWinner;
             }
+            else
+            {
+                return GameResult.Unknown;
+            }
         }
 
-        private bool CheckWin(Gamer gamer)
+        private bool CheckNoWinner()
+        {
+            // TODO Реализовать
+            return false;
+        }
+
+        private bool CheckWin(Gamer gamer, out CellPosition[] winCells)
         {
             //ожидание от урока
             CellState expectedCellState;
@@ -93,11 +114,20 @@
                 }
                 if(expectedCellsCount == 3)
                 {
+                    winCells = new CellPosition[]
+                    {
+                        new CellPosition(Row: row, Column: 0),
+                        new CellPosition(Row: row, Column: 1),
+                        new CellPosition(Row: row, Column: 2),
+                    };
                     return true;
                 }
             }
 
+            winCells = new CellPosition[0];
             return false;
         }
     }
+
+    public record CellPosition(int Row, int Column);
 }

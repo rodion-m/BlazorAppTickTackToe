@@ -1,5 +1,6 @@
-﻿<div class="tictactoe-board">
+﻿<div>Победитель: @board.GetGameResult(out winCells)</div>
 
+<div class="tictactoe-board">
     @for (int column = 0; column < board.ColumnCount; column++)
     {
         <div class="tictacttoe-column">
@@ -9,18 +10,21 @@
                 var savedRow = row;
                 var savedColumn = column;
                 ;
+                bool isWinCell = winCells.Contains(new CellPosition(row, column));
                 <div class="tictactoe-cell
-                        tictactoe-cell-@cell.ToString()"
-                @onclick="() => CellClick(savedRow, savedColumn)">
-                    r: @savedRow col: @savedColumn
+                    tictactoe-cell-@cell.ToString()"
+                    @onclick="() => CellClick(savedRow, savedColumn)">
+                    <div style="font-size: 300%; color: green">
+                        @(isWinCell ? "✓" : "")
+                    </div>
                 </div>
             }
         </div>
     }
 </div>
-<div>Победитель: @board.GetGameResult()</div>
 
 @code {
+    CellPosition[] winCells = new CellPosition[0];
     Board board = new Board();
 
     // Задание: Перенест логику из CellClick в NextTurn

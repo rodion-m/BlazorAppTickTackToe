@@ -14,4 +14,8 @@
     <None Include="wwwroot\css\game.css" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="OpenAI.ChatGPT.Modules.StructuredResponse" Version="2.8.0" />
+  </ItemGroup>
+
 </Project>
